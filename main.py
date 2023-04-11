@@ -10,6 +10,9 @@ Green_color = '#7BC043'
 
 
 class Tic_Tac_Toe():
+    # ------------------------------------------------------------------
+    # Initialization Functions:
+    # ------------------------------------------------------------------
     def __init__(self):
         self.window = Tk()
         self.window.title('Tic-Tac-Toe')
@@ -49,6 +52,10 @@ class Tic_Tac_Toe():
         self.player_X_turns = self.player_X_starts
         self.board_status = np.zeros(shape=(3, 3))
 
+    # ------------------------------------------------------------------
+    # Drawing Functions:
+    # The modules required to draw required game based object on canvas
+    # ------------------------------------------------------------------
 
     def draw_O(self, logical_position):
         logical_position = np.array(logical_position)
@@ -101,6 +108,11 @@ class Tic_Tac_Toe():
         self.canvas.create_text(size_of_board / 2, 15 * size_of_board / 16, font="cmr 20 bold", fill="gray",
                                 text=score_text)
 
+    # ------------------------------------------------------------------
+    # Logical Functions:
+    # The modules required to carry out game logic
+    # ------------------------------------------------------------------
+
     def convert_logical_to_grid_position(self, logical_position):
         logical_position = np.array(logical_position, dtype=int)
         return (size_of_board / 3) * logical_position + size_of_board / 6
@@ -145,7 +157,7 @@ class Tic_Tac_Toe():
         return tie
 
     def is_gameover(self):
-        # Either someone wins or all grid occupied
+        # win or draw decides here
         self.X_wins = self.is_winner('X')
         if not self.X_wins:
             self.O_wins = self.is_winner('O')
@@ -164,10 +176,6 @@ class Tic_Tac_Toe():
 
         return gameover
 
-
-
-
-
     def click(self, event):
         grid_position = [event.x, event.y]
         logical_position = self.convert_grid_to_logical_position(grid_position)
@@ -184,11 +192,11 @@ class Tic_Tac_Toe():
                     self.board_status[logical_position[0]][logical_position[1]] = 1
                     self.player_X_turns = not self.player_X_turns
 
-            # Check if game is concluded
+            # brain to check if game is concluded 
             if self.is_gameover():
                 self.display_gameover()
-                # print('Done')
-        else:  # Play Again
+
+        else:  # Play Again Section
             self.canvas.delete("all")
             self.play_again()
             self.reset_board = False
